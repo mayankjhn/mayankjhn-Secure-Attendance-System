@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Dashboard</title>
+</head>
+<body>
+    <h2>Student Dashboard</h2>
+    <h3>Scan QR Code to Mark Attendance</h3>
+    <input type="text" id="qr_value" placeholder="Enter QR Code">
+    <button onclick="markAttendance()">Submit</button>
+    
+    <h3>Attendance History</h3>
+    <ul>
+        {% for record in attendance %}
+            <li>{{ record.subject }} - {{ record.date }}</li>
+        {% endfor %}
+    </ul>
+    <a href="/logout">Logout</a>
+
+    <script>
+        function markAttendance() {
+            fetch('/mark_attendance', {
+                method: 'POST',
+                body: JSON.stringify({qr_value: document.getElementById("qr_value").value}),
+                headers: {'Content-Type': 'application/json'}
+            }).then(response => response.json())
+              .then(data => alert(data.status));
+        }
+    </script>
+</body>
+</html>
