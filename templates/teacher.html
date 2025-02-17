@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Teacher Dashboard</title>
+    <script>
+        function refreshQR() {
+            fetch('/generate_qr')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("qr").src = "/static/qr.png";
+                });
+        }
+        setInterval(refreshQR, 10000);
+    </script>
+</head>
+<body>
+    <h2>Teacher Dashboard</h2>
+    <h3>QR Code for Attendance</h3>
+    <img id="qr" src="/static/qr.png">
+    <h3>Students Marked Present</h3>
+    <ul>
+        {% for student in students %}
+            <li>{{ student.student_id }} - {{ student.subject }} - {{ student.date }}</li>
+        {% endfor %}
+    </ul>
+    <a href="/logout">Logout</a>
+</body>
+</html>
